@@ -26,7 +26,7 @@ func callSayHelloClientStream(client pb.GreetServiceClient, names *pb.NamesList)
 		time.Sleep(2 * time.Second)
 	}
 	res, err := stream.CloseAndRecv()
-	log.Printf("Clien streaming finished")
+	log.Printf("Client streaming finished")
 	if err != nil {
 		log.Fatalf("Error while receiving %v", err)
 	}
