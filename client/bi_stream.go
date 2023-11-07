@@ -35,7 +35,7 @@ func callHelloBidirectionalStream(client pb.GreetServiceClient, names *pb.NamesL
 			Name: name,
 		}
 		if err := stream.Send(req); err != nil {
-			log.Fatalf("Error whi.e sending %v", err)
+			log.Fatalf("Error while sending %v", err)
 		}
 		time.Sleep(2 * time.Second)
 	}
