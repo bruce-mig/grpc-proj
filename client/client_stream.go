@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"log"
+	"sync"
 	"time"
 
 	pb "github.com/bruce-mig/grpc-proj/proto"
 )
 
-func callSayHelloClientStream(client pb.GreetServiceClient, names *pb.NamesList) {
+func callSayHelloClientStream(wg *sync.WaitGroup, client pb.GreetServiceClient, names *pb.NamesList) {
+	defer wg.Done()
 	log.Printf("Client streaming started")
 	stream, err := client.SayHelloClientStreaming(context.Background())
 	if err != nil {

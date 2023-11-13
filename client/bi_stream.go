@@ -4,12 +4,14 @@ import (
 	"context"
 	"io"
 	"log"
+	"sync"
 	"time"
 
 	pb "github.com/bruce-mig/grpc-proj/proto"
 )
 
-func callHelloBidirectionalStream(client pb.GreetServiceClient, names *pb.NamesList) {
+func callHelloBidirectionalStream(wg *sync.WaitGroup, client pb.GreetServiceClient, names *pb.NamesList) {
+	defer wg.Done()
 	log.Printf("Bidirectional Streaming Started")
 	stream, err := client.SayHelloBidirectionalStreaming(context.Background())
 	if err != nil {

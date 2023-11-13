@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"log"
+	"sync"
 	"time"
 
 	pb "github.com/bruce-mig/grpc-proj/proto"
 )
 
-func callSayHello(client pb.GreetServiceClient) {
+func callSayHello(wg *sync.WaitGroup, client pb.GreetServiceClient) {
+	defer wg.Done()
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
