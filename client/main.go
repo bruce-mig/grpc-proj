@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"sync"
 
 	pb "github.com/bruce-mig/grpc-proj/proto"
 	"google.golang.org/grpc"
@@ -11,6 +12,8 @@ import (
 const (
 	port = ":8080"
 )
+
+var wg *sync.WaitGroup
 
 func main() {
 	conn, err := grpc.Dial("0.0.0.0"+port, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -25,8 +28,15 @@ func main() {
 		Names: []string{"Alice", "Bob", "Bruce"},
 	}
 
-	callSayHello(client)
-	callSayHelloServerStream(client, names)
-	callSayHelloClientStream(client, names)
-	callHelloBidirectionalStream(client, names)
+	wg = &sync.WaitGroup{}
+
+	// wg.Add(1)
+	// go callSayHello(wg, client)
+	// wg.Add(1)
+	// go callSayHelloServerStream(wg, client, names)
+	// wg.Add(1)
+	// go callSayHelloClientStream(wg, client, names)
+	wg.Add(1)
+	go callHelloBidirectionalStream(wg, client, names)
+	wg.Wait()
 }
